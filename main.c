@@ -1,39 +1,44 @@
-#include <stdio.h>
 #include "funciones.h"
 
-int main (int argc, char *argv[]) {
+int main() {
+    Libro biblioteca[MAX_LIBROS];
+    int cantidadLibros = 0;
+    int opcion;
 
-    struct Libro libros[20];
-    int opc;
-    int i=0;
-    do{
-    opc = menu();
-    switch (opc)
-    {
-        case 1:
-            registrarLibros(libros, i);
-            break;
-        case 2:
-            mostrarLibros(libros);
-            break;
-        case 3:
-            int id;
-            printf("Ingrese el id del libro a buscar: ");
-            scanf("%d", &id);
-            buscarLibroId(libros, id);
-            i++;
-            break;
-        case 4:
-            char titulo[100];
-            printf("Ingrese el titulo del libro a buscar: ");
-            scanf("%s", titulo);
-            buscarLibroTitulo(libros, titulo);
-            break;
-        
+    do {
+        mostrarMenu();
+        printf("\nSeleccione una opcion: ");
+        scanf("%d", &opcion);
+        getchar(); 
 
-    }
-    }while(opc != 7);
+        if (cantidadLibros == 0 && opcion != 1 && opcion != 6) {
+            printf("Debe registrar al menos un libro para realizar esta accion.\n");
+            continue;
+        }
 
+        switch (opcion) {
+            case 1:
+                registrarLibro(biblioteca, &cantidadLibros);
+                break;
+            case 2:
+                mostrarLibros(biblioteca, cantidadLibros);
+                break;
+            case 3:
+                buscarLibro(biblioteca, cantidadLibros);
+                break;
+            case 4:
+                actualizarEstado(biblioteca, cantidadLibros);
+                break;
+            case 5:
+                eliminarLibro(biblioteca, &cantidadLibros);
+                break;
+            case 6:
+                printf("Saliendo del programa...\n");
+                break;
+            default:
+                printf("Opcion invalida. Intente de nuevo.\n");
+        }
+    } while (opcion != 6);
 
     return 0;
 }
